@@ -1,0 +1,8 @@
+*.pkg.tar.*
+/obs-browser/
+/obs-studio/
+/obs-studio-*/
+cef-*.tar.*
+obs-studio-*.tar.*
+/src/
+/pkg/
