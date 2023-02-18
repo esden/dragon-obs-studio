@@ -23,15 +23,15 @@ optdepends=('libfdk-aac: FDK AAC codec support'
 			'v4l2loopback-dkms: virtual camera support')
 source=(
 	"$pkgname-$pkgver::git+https://github.com/obsproject/obs-studio#tag=$pkgver"
-	"git+https://github.com/obsproject/obs-browser#commit=f4f1c11"
-	"cef-4638_linux64.tar.bz2::https://cdn-fastly.obsproject.com/downloads/cef_binary_4638_linux64.tar.bz2"
+	"git+https://github.com/obsproject/obs-browser#commit=845adc7"
+	"cef-5060_linux64.tar.bz2::https://cdn-fastly.obsproject.com/downloads/cef_binary_5060_linux64.tar.bz2"
 	"fix_python_binary_loading.patch"
 )
-md5sums=(
+sha256sums=(
 	'SKIP'
 	'SKIP'
-	'34fb1c611b3e278ca4d0d1d50e7bfb9b'
-	'051b90f05e26bff99236b8fb1ad377d1'
+	'ac4e2a8ebf20700e4e36353e314f876623633dd5b474778a2548bb66bdbea11d'
+	'bdfbd062f080bc925588aec1989bb1df34bf779cc2fc08ac27236679cf612abd'
 )
 
 prepare() {
@@ -54,7 +54,7 @@ build() {
 		-DBUILD_BROWSER=ON \
 		-DBUILD_VST=OFF \
 		-DENABLE_NEW_MPEGTS_OUTPUT=OFF \
-		-DCEF_ROOT_DIR="$srcdir/cef_binary_4638_linux64" \
+		-DCEF_ROOT_DIR="$srcdir/cef_binary_5060_linux64" \
 		-DOBS_VERSION_OVERRIDE="$pkgver-$pkgrel" ..
 
 	make
