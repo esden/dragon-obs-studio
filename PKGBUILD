@@ -4,15 +4,15 @@
 # Contributor: Piotr Esden-Tempski <piotr@esden.net>
 
 pkgname=obs-studio
-pkgver=27.2.3
+pkgver=29.0.2
 pkgrel=1
 pkgdesc="Free, open source software for live streaming and recording"
 arch=('x86_64')
 url="https://obsproject.com"
 license=('GPL2')
 depends=('ffmpeg' 'jansson' 'libxinerama' 'libxkbcommon-x11' 'mbedtls' 'rnnoise' 'pciutils'
-		 'qt5-svg' 'curl' 'jack' 'gtk-update-icon-cache' 'pipewire' 'libxcomposite')
-makedepends=('git' 'cmake' 'libfdk-aac' 'x264' 'vlc' 'swig' 'python' 'luajit' 'sndio')
+		 'qt6-svg' 'curl' 'jack' 'gtk-update-icon-cache' 'pipewire' 'libxcomposite')
+makedepends=('git' 'cmake' 'libfdk-aac' 'x264' 'vlc' 'swig' 'python' 'luajit' 'sndio' 'libajantv2')
 optdepends=('libfdk-aac: FDK AAC codec support'
 			'libxcomposite: XComposite capture support'
 			'libva-intel-driver: hardware encoding'
@@ -38,7 +38,9 @@ prepare() {
 	cd "$srcdir/$pkgname-$pkgver"
 	patch -Np1 < "$srcdir/fix_python_binary_loading.patch"
 	git config submodule.plugins/obs-browser.url "$srcdir/obs-browser"
-	git submodule update
+	git submodule init plugins/enc-amf plugins/obs-outputs/ftl-sdk plugins/obs-websocket
+	git -c protocol.file.allow=always submodule update
+	git submodule foreach --recursive 'git submodule update --init'
 }
 
 build() {
@@ -51,6 +53,7 @@ build() {
 		-DCMAKE_INSTALL_LIBDIR="lib" \
 		-DBUILD_BROWSER=ON \
 		-DBUILD_VST=OFF \
+		-DENABLE_NEW_MPEGTS_OUTPUT=OFF \
 		-DCEF_ROOT_DIR="$srcdir/cef_binary_4638_linux64" \
 		-DOBS_VERSION_OVERRIDE="$pkgver-$pkgrel" ..
 
